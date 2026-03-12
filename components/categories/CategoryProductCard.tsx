@@ -22,7 +22,7 @@ const CatProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
             <button
                 onClick={toggleWishlist}
-                className="absolute top-2 right-2 hover:text-red-500 transition text-lg z-10 cursor-pointer"
+                className="absolute top-2 right-2 hover:text-red-500 transition text-lg z-10 transition-transform duration-150 ease-in-out cursor-pointer  active:scale-140"
             >
                 {wishlist ? <FaHeart className="text-red-500" /> : <FaRegHeart />}
             </button>

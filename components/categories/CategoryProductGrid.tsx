@@ -41,10 +41,17 @@ const CategoryProductGrid = () => {
     if (loading) return <p>Loading...</p>;
 
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {products.map((product: Product) => (
-                <CategoryProductCard key={product.id} product={product} />
-            ))}
+        <div className="flex flex-col gap-5 justify-center">
+            <h1 className="text-lg">
+                Products in:{" "}
+                <span className="font-bold text-2xl capitalize">
+                    {categoryName ? decodeURIComponent(categoryName) : ""}
+                </span>
+            </h1>            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {products.map((product: Product) => (
+                    <CategoryProductCard key={product.id} product={product} />
+                ))}
+            </div>
         </div>
     );
 };
