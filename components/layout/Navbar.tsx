@@ -5,6 +5,7 @@ import { LuShoppingCart } from "react-icons/lu";
 import { IoSearch } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa";
 import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
 
 import { useAppSelector } from "@/store/hooks";
 import { RootState } from "@/store";
@@ -19,6 +20,11 @@ const navLinks = [
 ];
 const Navbar = () => {
     const pathname = usePathname();
+
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     const cartCount = useAppSelector((state: RootState) => state.cart.items.length)
     const isAuthenticated = useSelector((state: any) => state.auth.isAuthenticated);
@@ -67,7 +73,7 @@ const Navbar = () => {
                         </span>
                     </Link>
 
-                    {isAuthenticated ? <Link href="/wishlist">
+                    {mounted && isAuthenticated ? <Link href="/wishlist">
                         <FaRegHeart size={18} />
                         <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full px-1">
                             3
@@ -76,10 +82,11 @@ const Navbar = () => {
 
 
 
-                    {isAuthenticated ? (
+                    {mounted && isAuthenticated ? (
                         <button
                             onClick={() => {
                                 dispatch(logout());
+                                toast.success("Logout successful");
                             }}
                             className="transition text-red-600 font-medium hover:text-red-700 cursor-pointer"
                         >
