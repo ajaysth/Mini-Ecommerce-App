@@ -2,6 +2,7 @@
 
 import ProductCard from "./ProductCard";
 import { Product } from "../../types";
+import Link from "next/link";
 
 const ProductGrid = ({ products, loading, error, limit }: { products: Product[], loading?: boolean, error?: string, limit?: number }) => {
 
@@ -14,10 +15,11 @@ const ProductGrid = ({ products, loading, error, limit }: { products: Product[],
                 <p>Error: {error}</p>
             ) : (
                 products.map((product) => (
-                    <ProductCard
-                        key={product.id}
-                        product={product}
-                    />
+                    <Link href={`/products/${product.id}`} key={product.id}>
+                        <ProductCard
+                            product={product}
+                        />
+                    </Link>
                 ))
             )}
 

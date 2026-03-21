@@ -10,6 +10,7 @@ import { setLoading } from "@/store/productsSlice";
 import { getCatProducts } from "@/lib/api/categoryProduct";
 import { Product } from "@/types/index";
 import CategoryProductCard from "./CategoryProductCard";
+import Link from "next/link";
 
 const CategoryProductGrid = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -49,7 +50,9 @@ const CategoryProductGrid = () => {
                 </span>
             </h1>            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {products.map((product: Product) => (
-                    <CategoryProductCard key={product.id} product={product} />
+                    <Link href={`/products/${product.id}`} key={product.id}>
+                        <CategoryProductCard product={product} />
+                    </Link>
                 ))}
             </div>
         </div>

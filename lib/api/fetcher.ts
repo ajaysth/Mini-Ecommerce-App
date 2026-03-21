@@ -9,12 +9,19 @@ export const fetcher = async (url: string, options: RequestInit = {}) => {
     });
 
     if (!res.ok) {
-      const errorData = await res.json();
+      const text = await res.text();
+      let errorData;
+      try {
+          errorData = text ? JSON.parse(text) : {};
+      } catch (e) {
+          errorData = { message: text };
+      }
       throw new Error(errorData.message || "API request failed");
     }
 
-    const data = await res.json();
-    return data;
+    const text = await res.text();
+    if (!text) return null;
+    return JSON.parse(text);
   } catch (error: any) {
     console.error("Fetch error:", error.message);
     throw error;
