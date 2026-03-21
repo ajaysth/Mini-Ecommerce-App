@@ -6,8 +6,10 @@ import {
     increaseQuantity,
     decreaseQuantity
 } from "@/store/cartSlice"
+import Image from "next/image"
+import { CartItem as CartItemType } from "@/types";
 
-export default function CartItem({ item }: any) {
+export default function CartItem({ item }: { item: CartItemType }) {
     const dispatch = useDispatch()
 
     return (
@@ -15,9 +17,11 @@ export default function CartItem({ item }: any) {
 
             {/* Image */}
             <div className="w-24 h-24 flex items-center justify-center bg-gray-50 rounded-xl overflow-hidden">
-                <img
+                <Image
                     src={item.image}
                     alt={item.title}
+                    width={100}
+                    height={100}
                     className="w-full h-full object-contain"
                 />
             </div>

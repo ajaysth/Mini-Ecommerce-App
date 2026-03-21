@@ -2,10 +2,12 @@
 import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
+import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../components/layout/Navbar";
 import { Provider } from "react-redux";
 import { store } from "../store";
 import NavbarWrapper from "../store/provider";
+import { Bounce, Slide, ToastContainer } from "react-toastify";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -41,7 +43,19 @@ export default function RootLayout({
           {children}
         </NavbarWrapper>
 
-
+        <ToastContainer
+          position="bottom-right"
+          autoClose={4978}
+          hideProgressBar={true}
+          newestOnTop={false}
+          closeOnClick={false}
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+          transition={Slide}
+        />
       </body>
     </html>
   );

@@ -6,7 +6,11 @@ import { IoSearch } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 
-import { useSelector } from "react-redux"
+import { useAppSelector } from "@/store/hooks";
+import { RootState } from "@/store";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "@/store/authSlice";
+import { toast } from "react-toastify";
 
 const navLinks = [
     { name: "Home", href: "/" },
@@ -16,8 +20,9 @@ const navLinks = [
 const Navbar = () => {
     const pathname = usePathname();
 
-    const cartCount = useSelector((state: any) => state.cart.items.length)
-
+    const cartCount = useAppSelector((state: RootState) => state.cart.items.length)
+    const isAuthenticated = useSelector((state: any) => state.auth.isAuthenticated);
+    const dispatch = useDispatch();
     return (
         <nav className=" shadow-sm">
             <div className="max-w-7xl mx-auto flex justify-between items-center p-4">
@@ -62,18 +67,31 @@ const Navbar = () => {
                         </span>
                     </Link>
 
-                    <Link href="/wishlist" className="relative  transition">
+                    {isAuthenticated ? <Link href="/wishlist">
                         <FaRegHeart size={18} />
                         <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full px-1">
                             3
                         </span>
-                    </Link>
+                    </Link> : null}
 
-                    <Link href="/login">
-                        <span className=" transition">
-                            Login
-                        </span>
-                    </Link>
+
+
+                    {isAuthenticated ? (
+                        <button
+                            onClick={() => {
+                                dispatch(logout());
+                            }}
+                            className="transition text-red-600 font-medium hover:text-red-700 cursor-pointer"
+                        >
+                            Logout
+                        </button>
+                    ) : (
+                        <Link href="/login">
+                            <span className="transition font-medium">
+                                Login
+                            </span>
+                        </Link>
+                    )}
 
                 </div>
 

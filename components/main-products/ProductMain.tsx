@@ -1,3 +1,4 @@
+"use client"
 import ProductGrid from "@/components/products/ProductGrid"
 import { useMemo, useState } from "react"
 import { Product } from "../../types/index"
