@@ -2,12 +2,24 @@
 
 import { Product } from "../../types";
 import { FaStar, FaStarHalfAlt, FaRegStar, FaShoppingCart, FaTag } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux"
+import {
+    addToCart,
+    increaseQuantity,
+    decreaseQuantity
+} from "@/store/cartSlice"
 
 interface ProductDetailsProps {
     product: Product;
 }
 
 const ProductDetails = ({ product }: ProductDetailsProps) => {
+
+    const dispatch = useDispatch()
+
+    const cartItem = useSelector((state: any) =>
+        state.cart.items.find((item: any) => item.id === product.id)
+    )
 
     const renderStars = (rating: number) => {
         const stars = [];
@@ -26,17 +38,17 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div className="lg:grid lg:grid-cols-2 lg:gap-x-12 xl:gap-x-16">
-                
+
                 {/* Left Side: Product Image */}
                 <div className="flex flex-col-reverse lg:flex-row gap-4 lg:gap-8">
                     <div className="aspect-square w-full bg-white border border-gray-100 rounded-3xl p-8 sm:p-12 flex items-center justify-center overflow-hidden relative group shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
                         {/* Soft background glow based on aesthetic preferences */}
                         <div className="absolute inset-0 bg-gradient-to-tr from-gray-50 to-white opacity-50"></div>
-                        
+
                         {/* Image */}
-                        <img 
-                            src={product.image} 
-                            alt={product.title} 
+                        <img
+                            src={product.image}
+                            alt={product.title}
                             className="w-full h-full object-contain relative z-10 group-hover:scale-105 transition-transform duration-500 ease-out"
                         />
                     </div>
@@ -44,7 +56,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
 
                 {/* Right Side: Product Information */}
                 <div className="mt-10 px-2 sm:px-0 lg:mt-0 lg:py-4">
-                    
+
                     {/* Category Badge */}
                     <div className="flex items-center gap-2 mb-4">
                         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold tracking-widest uppercase text-blue-700 bg-blue-50 border border-blue-100">
@@ -90,13 +102,51 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
 
                     {/* Action Buttons */}
                     <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200">
-                        <button 
-                            className="flex-1 bg-black text-white px-8 py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-3 hover:bg-gray-800 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-gray-300"
-                            onClick={() => alert(`Added ${product.title} to cart!`)}
-                        >
-                            <FaShoppingCart className="w-5 h-5" />
-                            Add to Cart
-                        </button>
+
+                        {!cartItem ? (
+                            // 👉 NOT in cart
+                            <button
+                                className="flex-1 bg-black text-white px-8 py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-3 hover:bg-gray-800 transition"
+                                onClick={() =>
+                                    dispatch(
+                                        addToCart({
+                                            id: product.id,
+                                            title: product.title,
+                                            price: product.price,
+                                            image: product.image,
+                                            quantity: 1
+                                        })
+                                    )
+                                }
+                            >
+                                <FaShoppingCart className="w-5 h-5" />
+                                Add to Cart
+                            </button>
+                        ) : (
+                            // ALREADY in cart
+                            <div className="flex items-center gap-4">
+
+                                <button
+                                    onClick={() => dispatch(decreaseQuantity(product.id))}
+                                    className="px-4 py-2 bg-gray-200 rounded-lg text-xl"
+                                >
+                                    -
+                                </button>
+
+                                <span className="text-xl font-bold">
+                                    {cartItem.quantity}
+                                </span>
+
+                                <button
+                                    onClick={() => dispatch(increaseQuantity(product.id))}
+                                    className="px-4 py-2 bg-gray-200 rounded-lg text-xl"
+                                >
+                                    +
+                                </button>
+
+                            </div>
+                        )}
+
                     </div>
                 </div>
             </div>

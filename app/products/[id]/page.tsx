@@ -17,7 +17,6 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
             </div>
         );
     } catch (error) {
-        // If the product doesn't exist or API fails, trigger Next.js 404
         notFound();
     }
 }

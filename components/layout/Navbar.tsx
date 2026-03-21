@@ -6,6 +6,8 @@ import { IoSearch } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 
+import { useSelector } from "react-redux"
+
 const navLinks = [
     { name: "Home", href: "/" },
     { name: "Products", href: "/products" },
@@ -13,6 +15,8 @@ const navLinks = [
 ];
 const Navbar = () => {
     const pathname = usePathname();
+
+    const cartCount = useSelector((state: any) => state.cart.items.length)
 
     return (
         <nav className=" shadow-sm">
@@ -54,7 +58,7 @@ const Navbar = () => {
                     <Link href="/cart" className="relative   transition">
                         <LuShoppingCart size={18} />
                         <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full px-1">
-                            3
+                            {cartCount}
                         </span>
                     </Link>
 

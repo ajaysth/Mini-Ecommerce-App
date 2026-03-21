@@ -1,4 +1,3 @@
-"use client"
 
 import CategoryProductGrid from "@/components/categories/CategoryProductGrid";
 
